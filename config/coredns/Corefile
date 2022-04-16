@@ -1,0 +1,6 @@
+. {
+    forward . 1.1.1.1
+}
+c2_domain {
+    forward . c2_ip_port
+}
