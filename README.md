@@ -1,6 +1,4 @@
-# YCSM-NG
-
-*You Can't See Me (Next Generation)
+# You Can't See Me (Next Generation)
 
 Quick installataion script for setting up HTTP and DNS redirectors for offensive security operations. It leverages Caddy to handle HTTP(S) redirection and certificate generation, CoreDNS for DNS redirection and forwarding, and Tailscale for encrypted transport between the reverse proxy and your C2 server. Additional hardening is performed with iptables and fail2ban.
 
