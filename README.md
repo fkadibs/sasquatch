@@ -30,11 +30,6 @@ Example: ./provision.sh http example.org 100.20.4.142:443
 
 At the end of the provisioning, you will be prompted with a URL to manually authorize the server to join your Tailscale network. Once authorized, traffic will begin to reach your C2 listener.
 
-# Customization
-
-Sasquatch is designed to be easy to customize and expand. For instance, you may want to only forward HTTP traffic to your C2 listener if there is a pre-defined header. This is easy to implement with a `rewrite` declaration and a small change to your Cobalt Strike malleable C2 profile.
-
-You can take things a step further and include mTLS authentication, expand the IP and User-Agent rewrite/deny lists and replace the static HTML content to serve as a decoy or recieve domain categorization.
 
 # Logging
 
