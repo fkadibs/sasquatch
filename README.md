@@ -1,8 +1,8 @@
-# You Can't See Me (Next Generation)
+# Sasquatch
 
-Quick installataion script for setting up HTTP and DNS redirectors for offensive security operations. It leverages Caddy to handle HTTP(S) redirection and certificate generation, CoreDNS for DNS redirection and forwarding, and Tailscale for encrypted transport between the reverse proxy and your C2 server. Additional hardening is performed with iptables and fail2ban.
+A fork of "ycsm", this project leverages Caddy and CoreDNS to redirect HTTP and DNS traffic during network penetration tests or red team operations. It performs some basic hardening with fail2ban, iptables, and pre-defined Caddy rules. Consider this a template to build upon, using Caddy's flexibility (tls, mtls, magic headers, rewrite, etc.). This also installs Tailscale to connect to backend infrastructure, but that can be easily changed to meet your needs.
 
-**Note:** Developed and tested on Ubuntu 20.04 and Cobalt Strike 4.0+. 
+**Note:** Currently under development, may contain bugs or future updates may include breaking changes. Developed and tested on Ubuntu 20.04 and Cobalt Strike 4.0+. 
 
 # Features
 
@@ -32,13 +32,13 @@ At the end of the provisioning, you will be prompted with a URL to manually auth
 
 # Customization
 
-YCSM-NG is designed to be easy to customize and expand. For instance, you may want to only forward HTTP traffic to your C2 listener if there is a pre-defined header. This is easy to implement with a `rewrite` declaration and a small change to your Cobalt Strike malleable C2 profile.
+Sasquatch is designed to be easy to customize and expand. For instance, you may want to only forward HTTP traffic to your C2 listener if there is a pre-defined header. This is easy to implement with a `rewrite` declaration and a small change to your Cobalt Strike malleable C2 profile.
 
 You can take things a step further and include mTLS authentication, expand the IP and User-Agent rewrite/deny lists and replace the static HTML content to serve as a decoy or recieve domain categorization.
 
 # Logging
 
-YCSM-NG generates logs following locations:
+Sasquatch generates logs following locations:
 
 Caddy:
 * `/var/log/caddy/access.log`
