@@ -2,7 +2,7 @@
 
 > "I think Bigfoot is blurry, that's the problem. It's not the photographer's fault. Bigfoot is blurry, and that's extra scary to me. There's a large, out-of-focus monster roaming the countryside." — Mitch Hedberg, *Strategic Grill Locations*
 
-A fork of "ycsm", this project leverages Caddy and CoreDNS to redirect HTTP and DNS traffic during network penetration tests or red team operations. It performs some basic hardening with fail2ban, iptables, and pre-defined Caddy rules. Consider this a template to build upon, using Caddy's flexibility (tls, mtls, magic headers, rewrite, etc.).
+A fork of "You Can't See Me", this project leverages Caddy and CoreDNS to redirect HTTP and DNS traffic during network penetration tests or red team operations. It performs some basic hardening with fail2ban, iptables, and pre-defined Caddy rules. Consider this a template to build upon, using Caddy's flexibility (tls, mtls, magic headers, rewrite, etc.).
 
 **Note:** Currently under development, future updates may include breaking changes. Developed and tested on Ubuntu 20.04 and Cobalt Strike 4.0+. 
 
