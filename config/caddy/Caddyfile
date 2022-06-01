@@ -10,7 +10,6 @@
     # Enable access logging
     log {
         output file /var/log/caddy/access.log
-        format single_field common_log
     }
     
     # user-agent deny list
