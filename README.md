@@ -54,4 +54,3 @@ fail2ban:
  - https://labs.f-secure.com/blog/detecting-exposed-cobalt-strike-dns-redirectors/
  - https://caddyserver.com/docs/
  - https://coredns.io/manual/toc/
- - https://tailscale.com/kb/
