@@ -48,7 +48,13 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 install_http() {
-  apt-get install -y caddy tailscale fail2ban libnss3-tools
+  sudo apt-get install -y debian-keyring debian-archive-keyring apt-transport-https
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  apt-get update
+  check_errors
+  
+  apt-get install -y caddy fail2ban libnss3-tools
   check_errors
 
   show_action "Configuring Caddy..."
@@ -94,11 +100,11 @@ install_dns() {
 
   show_action "Configuring CoreDNS..."
   # download from github releases for now
-  wget https://github.com/coredns/coredns/releases/download/v1.8.6/coredns_1.8.6_linux_amd64.tgz
+  wget https://github.com/coredns/coredns/releases/download/v1.9.3/coredns_1.9.3_linux_amd64.tgz
   check_errors
 
   # extract to directory
-  tar -xzf coredns_1.8.6_linux_amd64.tgz 
+  tar -xzf coredns_1.9.3_linux_amd64.tgz
   check_errors
 
   # avoid detection by forwarding non-C2 requests to real DNS server
@@ -124,6 +130,28 @@ install_dns() {
   check_errors
 }
 
+install_tailscale() {
+    show_action "Installing Tailscale..."
+    # tailscale
+    curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add -
+    curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+    check_errors
+
+    apt-get update
+    apt-get install tailscale
+    check_errors
+
+    show_action "Configuring Tailscale..."
+    # enable/start the tailscale daemon
+    systemctl enable tailscaled
+    systemctl start tailscaled
+    check_errors
+    
+    # connect tailscale to network
+    show_action "Starting Tailscale..."
+    tailscale up
+    check_errors
+}
 
 show_action "Installing dependencies..."
 apt-get update
@@ -133,17 +161,6 @@ check_errors
 apt-get install -y inetutils-ping net-tools dnsutils curl debian-keyring debian-archive-keyring 
 check_errors
 
-if [ "$1" == "http" ]; then
-    # caddy
-    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /etc/apt/trusted.gpg.d/caddy-stable.asc
-    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-    check_errors
-fi
-
-# tailscale
-curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add -
-curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list
-check_errors
 
 show_action "Updating apt-get packages..."
 apt-get update
@@ -163,17 +180,6 @@ else
   install_dns
 fi
 
-
-show_action "Configuring Tailscale..."
-# enable/start the tailscale daemon
-systemctl enable tailscaled
-systemctl start tailscaled
-check_errors
-
-# connect tailscale to network
-show_action "Starting Tailscale..."
-tailscale up
-check_errors
 
 show_action "Cleaning up..."
 apt-get autoremove -y
